@@ -4,13 +4,14 @@ import { z } from 'zod';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as Checkbox from "@radix-ui/react-checkbox";
-import { Check, Plus } from "@phosphor-icons/react/dist/ssr";
+import * as ToggleGroup from "@radix-ui/react-toggle-group";
+import { Check, PersonSimpleRun, Plus } from "@phosphor-icons/react/dist/ssr";
 
 import { Button, Input } from "@/components";
 import { cn } from "@/lib/cn";
-import { fields } from '@hookform/resolvers/ajv/src/__tests__/__fixtures__/data.js';
 
 const formSchema = z.object({
+  algotithm: z.enum(["AG", "ACO", "AMBOS"]).default("AG"),
   points: z.object({
     address: z.string().min(10, "Deve conter pelo menos 10 caracteres"),
     is_starting: z.boolean().default(false),
@@ -29,9 +30,12 @@ export const Form: React.FC<FormProps> = () => {
     handleSubmit,
     register,
     formState: { errors },
+    setValue,
+    watch,
   } = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
     reValidateMode: 'onChange',
+    values: { algotithm: "AG", points: [{ address: "", is_starting: true }] },
   });
 
   const { fields: points, append: pointsAppend, update } = useFieldArray({
@@ -96,7 +100,7 @@ export const Form: React.FC<FormProps> = () => {
                         <Checkbox.Root
                           id=""
                           className={cn(
-                            "w-10 h-10 flex items-center justify-center border border-slate-800 rounded bg-indigo-950 bg-opacity-20",
+                            "w-10 h-10 flex items-center justify-center border border-slate-700 rounded bg-indigo-950 bg-opacity-20",
                             "data-[state=checked]:border-green-900 data-[state=checked]:bg-green-800 data-[state=checked]:bg-opacity-20",
                           )}
                           checked={points[pointIdx].is_starting}
@@ -158,12 +162,122 @@ export const Form: React.FC<FormProps> = () => {
 
         <section
           className={cn(
-            "flex-1",
+            "flex-1 flex flex-col gap-2",
+            "lg:gap-6"
           )}
         >
-          <h2>
-            Section 2
+          <h2
+            className={cn(
+              "text-lg text-green-200 font-bold",
+              "md:text-xl",
+              "lg:text-2xl",
+              "xl:text-3xl"
+            )}
+          >
+            Configurações
           </h2>
+
+          <div
+            className={cn(
+              "p-4 pt-8 border border-dashed border-green-600 rounded-lg flex flex-col gap-4",
+            )}
+          >
+            <div
+              className={cn(
+                "flex flex-col gap-3",
+              )}
+            >
+              <span
+                className='text-slate-500 font-semibold'
+              >
+                Algoritmo
+              </span>
+
+              <ToggleGroup.Root
+                type="single"
+                value={watch("algotithm")}
+                onValueChange={(value: "AG" | "ACO" | "AMBOS") => setValue("algotithm", value)}
+                className={cn(
+                  "flex text-green-100 tracking-wider",
+                )}
+              >
+                <ToggleGroup.Item
+                  value="AG"
+                  className={cn(
+                    "flex-1 py-3 bg-green-800  bg-opacity-20 data-[state=on]:bg-green-800 text-green-100 border border-green-800 hover:bg-opacity-40",
+                    "rounded-l"
+                  )}
+                >
+                  Algoritmo Genético
+                </ToggleGroup.Item>
+                <ToggleGroup.Item
+                  value="ACO"
+                  className={cn(
+                    "flex-1 py-3 bg-green-800 bg-opacity-20 data-[state=on]:bg-green-800 text-green-100 border border-green-800 hover:bg-opacity-40",
+                  )}
+                >
+                  Colônia de Formigas
+                </ToggleGroup.Item>
+                <ToggleGroup.Item
+                  value="AMBOS"
+                  className={cn(
+                    "flex-1 py-3 bg-green-800 bg-opacity-20 data-[state=on]:bg-green-800 text-green-100 border border-green-800 hover:bg-opacity-40",
+                    "rounded-r"
+                  )}
+                >
+                  Ambos
+                </ToggleGroup.Item>
+              </ToggleGroup.Root>
+            </div>
+
+            {(watch("algotithm") === "AG" || watch("algotithm") === "AMBOS") && (
+              <div
+                className={cn("flex flex-col gap-3")}
+              >
+                <div
+                  className={cn(
+                    "flex flex-col gap-3",
+                    "sm:flex-row",
+                  )}
+                >
+                  <Input
+                    label="Máximo de gerações"
+                    name="generations"
+                    type='number'
+                  />
+
+                  <Input
+                    label="Máximo de indivíduos"
+                    name="max_population"
+                    type='number'
+                  />
+                </div>
+
+                <div
+                  className={cn(
+                    "flex flex-col gap-3",
+                    "sm:flex-row",
+                  )}
+                >
+                  <Input
+                    label="Taxa de mutação"
+                    name="mutation_rate"
+                    type='number'
+                    step={0.001}
+                  />
+                </div>
+              </div>
+            )}
+
+            <Button
+              text='Encontrar Rota'
+              iconLeft={<PersonSimpleRun weight='bold' size={22} />}
+              className={cn(
+                "mt-10 text-yellow-50 bg-yellow-600 border-yellow-700 font-semibold",
+                "hover:bg-opacity-80",
+              )}
+            />
+          </div>
         </section>
       </main>
     </form>

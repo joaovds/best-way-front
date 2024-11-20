@@ -27,7 +27,7 @@ export const Input = <T extends FieldValues>({
         <label
           htmlFor={props.itemRef}
           className={cn(
-            'text-slate-400 font-semibold',
+            'text-slate-500 font-semibold',
           )}
         >
           {label}
@@ -37,7 +37,7 @@ export const Input = <T extends FieldValues>({
       <div className={cn('relative flex flex-col gap-2')}>
         <input
           className={cn(
-            "h-12 w-full px-4 text-base text-slate-300 border border-slate-800 rounded bg-indigo-950 bg-opacity-20 focus:outline-none focus:border-slate-400",
+            "h-12 w-full px-4 text-base text-slate-300 border border-slate-700 rounded bg-indigo-950 bg-opacity-20 focus:outline-none focus:border-slate-400",
             error && 'border-red-400',
             className
           )}
