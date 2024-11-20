@@ -27,7 +27,7 @@ export const Input = <T extends FieldValues>({
         <label
           htmlFor={props.itemRef}
           className={cn(
-            'text-slate-500 font-semibold opacity-80',
+            'text-slate-400 font-semibold',
           )}
         >
           {label}
