@@ -8,6 +8,9 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        overlock: 'var(--font-overlock)',
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
