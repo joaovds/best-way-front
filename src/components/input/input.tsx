@@ -42,7 +42,7 @@ export const Input = <T extends FieldValues>({
             className
           )}
           {...props}
-          {...register?.(name)}
+          {...register?.(name, { valueAsNumber: props.type === "number" })}
         />
 
         {error && <span className="text-2xs text-red-400">{error}</span>}

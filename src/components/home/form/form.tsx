@@ -5,13 +5,18 @@ import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as Checkbox from "@radix-ui/react-checkbox";
 import * as ToggleGroup from "@radix-ui/react-toggle-group";
-import { Check, PersonSimpleRun, Plus } from "@phosphor-icons/react/dist/ssr";
+import { Check, PersonSimpleRun, Plus, Smiley } from "@phosphor-icons/react/dist/ssr";
 
 import { Button, Input } from "@/components";
 import { cn } from "@/lib/cn";
+import { useData } from '@/infra/jotai';
 
 const formSchema = z.object({
   algotithm: z.enum(["AG", "ACO", "AMBOS"]).default("AG"),
+  mutation_rate: z.number().positive().optional(),
+  elitism: z.number().optional(),
+  max_generations: z.number().int({ message: "Deve ser um número inteiro" }).positive().optional(),
+  max_population: z.number().int({ message: "Deve ser um número inteiro" }).positive().optional(),
   points: z.object({
     address: z.string().min(10, "Deve conter pelo menos 10 caracteres"),
     is_starting: z.boolean().default(false),
@@ -20,22 +25,35 @@ const formSchema = z.object({
   }, "Pelo menos um endereço deve ser marcado como ponto de início"),
 });
 
-type FormSchemaType = z.infer<typeof formSchema>;
+export type FormSchemaType = z.infer<typeof formSchema>;
 
-type FormProps = {};
+export type FormProps = {};
 
 export const Form: React.FC<FormProps> = () => {
+  const { setData } = useData();
+
   const {
     control,
     handleSubmit,
     register,
     formState: { errors },
     setValue,
+    resetField,
     watch,
   } = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
     reValidateMode: 'onChange',
-    values: { algotithm: "AG", points: [{ address: "", is_starting: true }] },
+    defaultValues: {
+      points: [{ address: "", is_starting: true }],
+    },
+    values: {
+      algotithm: "AG",
+      points: [],
+      elitism: 4,
+      mutation_rate: 0.2,
+      max_generations: 700,
+      max_population: 7000,
+    },
   });
 
   const { fields: points, append: pointsAppend, update } = useFieldArray({
@@ -44,7 +62,7 @@ export const Form: React.FC<FormProps> = () => {
   });
 
   const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
-    console.log(JSON.stringify(data, null, 2))
+    setData(data);
   }
 
   return (
@@ -156,6 +174,35 @@ export const Form: React.FC<FormProps> = () => {
               }}
             />
 
+            <Button
+              type='button'
+              text="Exemplo"
+              iconLeft={<Smiley />}
+              className={cn(
+                "mt-4 text-purple-100 bg-purple-800 bg-opacity-20 border-purple-700",
+                "hover:bg-opacity-30",
+              )}
+              onClick={() => {
+                resetField("points");
+
+                [
+                  "Universidade Católica de Santos - Campus Dom Idílio",
+                  "Av. Conselheiro Nébias, 320 - Vila Matias",
+                  "Av. Ana Costa, 340 - Vila Matias, Santos",
+                  "Av. Dr. Pedro Lessa, 905 - Ponta da Praia, Santos",
+                  "Av. Presidente Wilson - Gonzaguinha, São Vicente",
+                  "Prç. dos Expedicionários - Gonzaga",
+                  "Praça da Independência - Gonzaga",
+                  "Universidade Santa Cecília",
+                ].forEach((p, i) => {
+                  pointsAppend({
+                    address: p,
+                    is_starting: i === 0,
+                  })
+                })
+              }}
+            />
+
             {errors.points?.root?.message && <span className="text-2xs text-red-400">{errors.points.root.message}</span>}
           </div>
         </section>
@@ -248,14 +295,16 @@ export const Form: React.FC<FormProps> = () => {
                 >
                   <Input
                     label="Máximo de gerações"
-                    name="generations"
+                    name="max_generations"
                     type='number'
+                    register={register}
                   />
 
                   <Input
                     label="Máximo de indivíduos"
                     name="max_population"
                     type='number'
+                    register={register}
                   />
                 </div>
 
@@ -270,18 +319,21 @@ export const Form: React.FC<FormProps> = () => {
                     name="mutation_rate"
                     type='number'
                     step={0.001}
+                    register={register}
                   />
 
                   <Input
                     label="Elitismo"
                     name="elitism"
                     type='number'
+                    register={register}
                   />
                 </div>
               </div>
             )}
 
             <Button
+              type='submit'
               text='Encontrar Rota'
               iconLeft={<PersonSimpleRun weight='bold' size={22} />}
               className={cn(

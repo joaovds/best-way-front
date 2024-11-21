@@ -1,14 +1,14 @@
 "use client";
 
-import { useState } from "react";
 import { BugBeetle, CircleNotch } from "@phosphor-icons/react/dist/ssr";
 
 import { cn } from "@/lib/cn";
+import { useData } from "@/infra/jotai";
 
 type ACOResultsProps = {};
 
 export const ACOResults: React.FC<ACOResultsProps> = () => {
-  const [loading] = useState(true);
+  const { data } = useData();
 
   return (
     <section className={cn("flex flex-col py-4 border-2 border-dotted border-violet-800 border-opacity-50 rounded")}>
@@ -26,7 +26,7 @@ export const ACOResults: React.FC<ACOResultsProps> = () => {
         </h4>
       </header>
 
-      {loading && <CircleNotch size={48} className={cn('m-10 self-center animate-spin text-violet-100')} />}
+      {!data && <CircleNotch size={48} className={cn('m-10 self-center animate-spin text-violet-100')} />}
     </section>
   );
 }

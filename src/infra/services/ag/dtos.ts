@@ -25,7 +25,7 @@ export namespace GetBestRouteAG {
     is_starting: boolean;
   };
 
-  type RoutePointRes = {
+  export type RoutePointRes = {
     address: string;
     distance_human_readable: string;
     time_human_readable: string;
