@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Overlock } from 'next/font/google';
+import { Toaster } from 'sonner'
 import "./globals.css";
 
 const overlock = Overlock({
@@ -30,6 +31,7 @@ export default function RootLayout({
         className={`antialiased`}
       >
         {children}
+        <Toaster />
       </body>
     </html>
   );
