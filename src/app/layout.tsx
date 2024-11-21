@@ -23,6 +23,9 @@ export default function RootLayout({
       lang="pt-BR"
       className={`${overlock.variable}`}
     >
+      <head>
+        <script src="https://go-echarts.github.io/go-echarts-assets/assets/echarts.min.js"></script>
+      </head>
       <body
         className={`antialiased`}
       >

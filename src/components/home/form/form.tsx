@@ -182,14 +182,8 @@ export const Form: React.FC<FormProps> = () => {
               "p-4 pt-8 border border-dashed border-green-600 rounded-lg flex flex-col gap-4",
             )}
           >
-            <div
-              className={cn(
-                "flex flex-col gap-3",
-              )}
-            >
-              <span
-                className='text-slate-500 font-semibold'
-              >
+            <div className={cn("flex flex-col gap-3")}>
+              <span className='text-slate-500 font-semibold'>
                 Algoritmo
               </span>
 
@@ -198,14 +192,15 @@ export const Form: React.FC<FormProps> = () => {
                 value={watch("algotithm")}
                 onValueChange={(value: "AG" | "ACO" | "AMBOS") => setValue("algotithm", value)}
                 className={cn(
-                  "flex text-green-100 tracking-wider",
+                  "flex flex-col",
+                  "sm:flex-row text-green-100 tracking-wider",
                 )}
               >
                 <ToggleGroup.Item
                   value="AG"
                   className={cn(
                     "flex-1 py-3 bg-green-800  bg-opacity-20 data-[state=on]:bg-green-800 text-green-100 border border-green-800 hover:bg-opacity-40",
-                    "rounded-l"
+                    "rounded-t sm:rounded-t-none sm:rounded-l sm:rounded-tl"
                   )}
                 >
                   Algoritmo Genético
@@ -222,13 +217,24 @@ export const Form: React.FC<FormProps> = () => {
                   value="AMBOS"
                   className={cn(
                     "flex-1 py-3 bg-green-800 bg-opacity-20 data-[state=on]:bg-green-800 text-green-100 border border-green-800 hover:bg-opacity-40",
-                    "rounded-r"
+                    "rounded-b sm:rounded-b-none sm:rounded-r"
                   )}
                 >
                   Ambos
                 </ToggleGroup.Item>
               </ToggleGroup.Root>
             </div>
+
+
+            {(watch("algotithm") === "ACO") && (
+              <strong
+                className={cn(
+                  "text-2xl text-red-900"
+                )}
+              >
+                Sem configurações disponíveis
+              </strong>
+            )}
 
             {(watch("algotithm") === "AG" || watch("algotithm") === "AMBOS") && (
               <div
@@ -264,6 +270,12 @@ export const Form: React.FC<FormProps> = () => {
                     name="mutation_rate"
                     type='number'
                     step={0.001}
+                  />
+
+                  <Input
+                    label="Elitismo"
+                    name="elitism"
+                    type='number'
                   />
                 </div>
               </div>

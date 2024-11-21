@@ -1,4 +1,4 @@
-import { Form } from "@/components";
+import { Form, Results } from "@/components";
 import { cn } from "@/lib/cn";
 
 export default function Home() {
@@ -34,6 +34,10 @@ export default function Home() {
       </header>
 
       <Form />
+      <div
+        className={cn("h-2 w-full my-10 md:my-16 bg-indigo-950 bg-opacity-20 border-2 border-dashed border-slate-800")}
+      />
+      <Results />
     </div >
   );
 }

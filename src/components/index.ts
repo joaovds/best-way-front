@@ -1,3 +1,3 @@
 export * from "./button";
-export * from "./form";
+export * from "./home";
 export * from "./input";
