@@ -9,6 +9,7 @@ export namespace GetBestRouteAG {
 
   export type ResponseProps = {
     charts_html: string;
+    algorithm_time: string;
     total_distance_human_readable: string;
     total_time_human_readable: string;
     route: RoutePointRes[];

@@ -117,7 +117,7 @@ export const AGResults: React.FC<AGResultsProps> = () => {
                 <Input
                   label="Tempo de Execução"
                   name=""
-                  value={"adicionar"}
+                  value={agResponse.algorithm_time}
                   containerClassName="min-w-48 flex-1"
                   readOnly
                 />
