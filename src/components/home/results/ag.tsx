@@ -28,6 +28,7 @@ export const AGResults: React.FC<AGResultsProps> = () => {
       mutation_rate: data?.mutation_rate ?? 0,
       elitism: data?.elitism ?? 0,
       locations: data?.points ?? [],
+      calculator: data?.action === "WITH_MAPS" ? "MAPS" : "MOCKED",
     });
 
     if (error) {
@@ -35,7 +36,6 @@ export const AGResults: React.FC<AGResultsProps> = () => {
     } else {
       toast.success('Rota no AG encontrada com sucesso!');
       result && setAgResponse(result.props)
-      console.log(result)
     }
   };
 

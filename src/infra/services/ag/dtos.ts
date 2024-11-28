@@ -5,6 +5,7 @@ export namespace GetBestRouteAG {
     max_generations: number;
     max_population: number;
     locations: LocationReq[];
+    calculator: "MAPS" | "MOCKED";
   }
 
   export type ResponseProps = {

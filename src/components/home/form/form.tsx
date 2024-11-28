@@ -12,6 +12,7 @@ import { cn } from "@/lib/cn";
 import { useData } from '@/infra/jotai';
 
 const formSchema = z.object({
+  action: z.enum(["WITH_MAPS", "MOCKED"]).default("WITH_MAPS"),
   algotithm: z.enum(["AG", "ACO", "AMBOS"]).default("AG"),
   mutation_rate: z.number().positive().optional(),
   elitism: z.number().optional(),
@@ -48,6 +49,7 @@ export const Form: React.FC<FormProps> = () => {
     },
     values: {
       algotithm: "AG",
+      action: "WITH_MAPS",
       points: [],
       elitism: 4,
       mutation_rate: 0.2,
@@ -62,11 +64,15 @@ export const Form: React.FC<FormProps> = () => {
   });
 
   const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
-    setData(data);
+    setData({ ...data, action: "WITH_MAPS" });
+  }
+
+  const onSubmitMockValues: SubmitHandler<FormSchemaType> = async (data) => {
+    setData({ ...data, action: "MOCKED" });
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form>
       <main
         className={cn(
           "mt-10 flex flex-col gap-6",
@@ -333,13 +339,25 @@ export const Form: React.FC<FormProps> = () => {
             )}
 
             <Button
-              type='submit'
+              type='button'
               text='Encontrar Rota'
               iconLeft={<PersonSimpleRun weight='bold' size={22} />}
               className={cn(
                 "mt-10 text-yellow-50 bg-yellow-600 border-yellow-700 font-semibold",
                 "hover:bg-opacity-80",
               )}
+              onClick={handleSubmit(onSubmit)}
+            />
+
+            <Button
+              type='button'
+              text='Encontrar Rota (values mock)'
+              iconLeft={<PersonSimpleRun weight='bold' size={22} />}
+              className={cn(
+                "text-yellow-700 bg-transparent border-yellow-700 font-semibold",
+                "hover:bg-opacity-80",
+              )}
+              onClick={handleSubmit(onSubmitMockValues)}
             />
           </div>
         </section>

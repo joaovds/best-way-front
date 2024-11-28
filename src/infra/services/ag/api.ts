@@ -3,7 +3,8 @@ import { GetBestRouteAG } from "./dtos";
 
 export const getBestRouteAG = async (params: GetBestRouteAG.Request): Promise<{ result: GetBestRouteAG.Response | null; error: boolean }> => {
   try {
-    const res = await apiAG.post<GetBestRouteAG.ResponseProps>('get-route', {
+    const url = params.calculator === "MAPS" ? "get-route" : "get-route-test-mock";
+    const res = await apiAG.post<GetBestRouteAG.ResponseProps>(url, {
       json: params,
       timeout: 60000,
     });
