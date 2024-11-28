@@ -24,6 +24,7 @@ const formSchema = z.object({
   }).array().min(3, "Deve haver o mínimo de 3 endereços").refine(data => {
     return data.some(point => point.is_starting)
   }, "Pelo menos um endereço deve ser marcado como ponto de início"),
+  locationsQuantity: z.number().default(3),
   alpha: z.number(),
   beta: z.number(),
   evaporationRate: z.number(),
@@ -61,6 +62,7 @@ export const Form: React.FC<FormProps> = () => {
       alpha: 0.5,
       beta: 0.5,
       evaporationRate: 0.5,
+      locationsQuantity: 3,
     },
   });
 
@@ -328,6 +330,20 @@ export const Form: React.FC<FormProps> = () => {
                     <Input
                       label="Elitismo"
                       name="elitism"
+                      type='number'
+                      register={register}
+                    />
+                  </div>
+
+                  <div
+                    className={cn(
+                      "flex flex-col gap-3",
+                      "sm:flex-row",
+                    )}
+                  >
+                    <Input
+                      label="Qtd. para Pontos Mockados (para testes)"
+                      name="locationsQuantity"
                       type='number'
                       register={register}
                     />

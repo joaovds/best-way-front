@@ -2,6 +2,7 @@ import { LocationReq } from "@/infra/services/shared";
 
 export namespace GetBestRouteAG {
   export type Request = {
+    locations_quantity: number;
     mutation_rate: number;
     elitism: number;
     max_generations: number;

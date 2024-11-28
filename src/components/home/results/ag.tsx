@@ -29,6 +29,7 @@ export const AGResults: React.FC<AGResultsProps> = () => {
       elitism: data?.elitism ?? 0,
       locations: data?.points ?? [],
       calculator: data?.action === "WITH_MAPS" ? "MAPS" : "MOCKED",
+      locations_quantity: data?.action === "WITH_MAPS" ? data.points.length : (data?.locationsQuantity ?? 3),
     });
 
     if (error) {
