@@ -7,12 +7,13 @@ export namespace GetBestRouteACO {
   }
 
   export type ResponseProps = {
+    charts_html: string;
     totalDistanceHumanReadable: string;
     totalTimeHumanReadable: string;
     totalTime: number;
     totalDistance: number;
     locations: RoutePointRes[];
-    convergenceData: { iteration: number; bestSolutionCost: number }
+    convergenceData: { iteration: number; bestSolutionCost: number }[];
   }
 
   export type RoutePointRes = {

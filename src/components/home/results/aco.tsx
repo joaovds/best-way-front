@@ -1,8 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import dynamic from 'next/dynamic';
 import { BugBeetle, Calculator, CircleNotch, Info } from "@phosphor-icons/react/dist/ssr";
 import { toast } from "sonner";
+
+const DynamicCharts = dynamic(() => import('./charts'), {
+  ssr: false,
+});
 
 import { cn } from "@/lib/cn";
 import { useData } from "@/infra/jotai";
@@ -145,7 +150,7 @@ export const ACOResults: React.FC<ACOResultsProps> = () => {
             <div
               className={cn("p-4 w-full overflow-x-auto")}
             >
-              {/* <DynamicCharts html={agResponse.charts_html} /> */}
+              <DynamicCharts html={acoResponse.charts_html} />
             </div>
 
             <div className={cn("w-full p-4 flex flex-col gap-4 overflow-x-auto")}>
