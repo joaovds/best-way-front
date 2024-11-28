@@ -1,34 +1,27 @@
-import { LocationReq } from "@/infra/services/shared";
-
 export namespace GetBestRouteACO {
   export type Request = {
     alfa: number;
     beta: number;
     taxaEvaporacao: number;
-    locations: string[];
+    locations: { endereco: string; is_starting: boolean }[];
   }
 
   export type ResponseProps = {
-    charts_html: string;
-    algorithm_time: string;
-    total_distance_human_readable: string;
-    total_time_human_readable: string;
-    route: RoutePointRes[];
-    total_time: number;
-    population_size: number;
-    max_generations: number;
-    elitism_number: number;
-    total_distance: number;
-    mutation_rate: number;
+    totalDistanceHumanReadable: string;
+    totalTimeHumanReadable: string;
+    totalTime: number;
+    totalDistance: number;
+    locations: RoutePointRes[];
+    convergenceData: { iteration: number; bestSolutionCost: number }
   }
 
   export type RoutePointRes = {
     address: string;
-    distance_human_readable: string;
-    time_human_readable: string;
-    is_starting: boolean;
-    distance_to_next_point: number;
-    time_in_seconds: number;
+    distanceHumanReadable: string;
+    timeHumanReadable: string;
+    starting: boolean;
+    distanceToNextPoint: number;
+    timeInSeconds: number;
   };
 
   export class Response {

@@ -45,7 +45,7 @@ export const AGResults: React.FC<AGResultsProps> = () => {
     }
   }, [data]);
 
-  return (
+  return (data!.algotithm === "AG" || data!.algotithm === "AMBOS") ? (
     <section className={cn("flex flex-col gap-5 py-4 border-2 border-dotted border-violet-800 border-opacity-50 rounded")}>
       <header className={cn("px-4 pb-4 flex gap-5 items-center border-b-2 border-dotted border-violet-800 border-opacity-50 text-violet-200")}>
         <Dna size={32} />
@@ -185,5 +185,5 @@ export const AGResults: React.FC<AGResultsProps> = () => {
 
       {!agResponse && <CircleNotch size={48} className={cn('m-10 self-center animate-spin text-violet-100')} />}
     </section>
-  );
+  ) : null;
 }

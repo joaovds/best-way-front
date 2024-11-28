@@ -3,7 +3,7 @@ import { GetBestRouteACO } from "./dtos";
 
 export const getBestRouteACO = async (params: GetBestRouteACO.Request): Promise<{ result: GetBestRouteACO.Response | null; error: boolean }> => {
   try {
-    const url = "run-aco";
+    const url = "aco/optimize";
     const res = await apiACO.post<GetBestRouteACO.ResponseProps>(url, {
       json: params,
       timeout: 60000,
