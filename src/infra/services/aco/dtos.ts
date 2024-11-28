@@ -1,13 +1,11 @@
 import { LocationReq } from "@/infra/services/shared";
 
-export namespace GetBestRouteAG {
+export namespace GetBestRouteACO {
   export type Request = {
-    mutation_rate: number;
-    elitism: number;
-    max_generations: number;
-    max_population: number;
-    locations: LocationReq[];
-    calculator: "MAPS" | "MOCKED";
+    alfa: number;
+    beta: number;
+    taxaEvaporacao: number;
+    locations: string[];
   }
 
   export type ResponseProps = {

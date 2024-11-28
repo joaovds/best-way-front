@@ -24,6 +24,9 @@ const formSchema = z.object({
   }).array().min(3, "Deve haver o mínimo de 3 endereços").refine(data => {
     return data.some(point => point.is_starting)
   }, "Pelo menos um endereço deve ser marcado como ponto de início"),
+  alpha: z.number(),
+  beta: z.number(),
+  evaporationRate: z.number(),
 });
 
 export type FormSchemaType = z.infer<typeof formSchema>;
@@ -55,6 +58,9 @@ export const Form: React.FC<FormProps> = () => {
       mutation_rate: 0.2,
       max_generations: 700,
       max_population: 7000,
+      alpha: 0.5,
+      beta: 0.5,
+      evaporationRate: 0.5,
     },
   });
 
@@ -279,64 +285,90 @@ export const Form: React.FC<FormProps> = () => {
             </div>
 
 
-            {(watch("algotithm") === "ACO") && (
-              <strong
-                className={cn(
-                  "text-2xl text-red-900"
-                )}
-              >
-                Sem configurações disponíveis
-              </strong>
-            )}
-
-            {(watch("algotithm") === "AG" || watch("algotithm") === "AMBOS") && (
-              <div
-                className={cn("flex flex-col gap-3")}
-              >
+            <div className={cn("flex flex-col gap-10")}>
+              {(watch("algotithm") === "AG" || watch("algotithm") === "AMBOS") && (
                 <div
-                  className={cn(
-                    "flex flex-col gap-3",
-                    "sm:flex-row",
-                  )}
+                  className={cn("flex flex-col gap-3")}
                 >
-                  <Input
-                    label="Máximo de gerações"
-                    name="max_generations"
-                    type='number'
-                    register={register}
-                  />
+                  <div
+                    className={cn(
+                      "flex flex-col gap-3",
+                      "sm:flex-row",
+                    )}
+                  >
+                    <Input
+                      label="Máximo de gerações"
+                      name="max_generations"
+                      type='number'
+                      register={register}
+                    />
 
-                  <Input
-                    label="Máximo de indivíduos"
-                    name="max_population"
-                    type='number'
-                    register={register}
-                  />
+                    <Input
+                      label="Máximo de indivíduos"
+                      name="max_population"
+                      type='number'
+                      register={register}
+                    />
+                  </div>
+
+                  <div
+                    className={cn(
+                      "flex flex-col gap-3",
+                      "sm:flex-row",
+                    )}
+                  >
+                    <Input
+                      label="Taxa de mutação"
+                      name="mutation_rate"
+                      type='number'
+                      step={0.001}
+                      register={register}
+                    />
+
+                    <Input
+                      label="Elitismo"
+                      name="elitism"
+                      type='number'
+                      register={register}
+                    />
+                  </div>
                 </div>
+              )}
 
+              {(watch("algotithm") === "ACO" || watch("algotithm") === "AMBOS") && (
                 <div
-                  className={cn(
-                    "flex flex-col gap-3",
-                    "sm:flex-row",
-                  )}
+                  className={cn("flex flex-col gap-3")}
                 >
-                  <Input
-                    label="Taxa de mutação"
-                    name="mutation_rate"
-                    type='number'
-                    step={0.001}
-                    register={register}
-                  />
+                  <div
+                    className={cn(
+                      "flex flex-col gap-3",
+                      "sm:flex-row",
+                    )}
+                  >
+                    <Input
+                      label="Alfa"
+                      name="alpha"
+                      type='number'
+                      register={register}
+                    />
 
-                  <Input
-                    label="Elitismo"
-                    name="elitism"
-                    type='number'
-                    register={register}
-                  />
+                    <Input
+                      label="Beta"
+                      name="beta"
+                      type='number'
+                      register={register}
+                    />
+
+                    <Input
+                      label="Taxa de Evaporação"
+                      name="evaporationRate"
+                      type='number'
+                      register={register}
+                    />
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
 
             <Button
               type='button'
@@ -349,16 +381,18 @@ export const Form: React.FC<FormProps> = () => {
               onClick={handleSubmit(onSubmit)}
             />
 
-            <Button
-              type='button'
-              text='Encontrar Rota (values mock)'
-              iconLeft={<PersonSimpleRun weight='bold' size={22} />}
-              className={cn(
-                "text-yellow-700 bg-transparent border-yellow-700 font-semibold",
-                "hover:bg-opacity-80",
-              )}
-              onClick={handleSubmit(onSubmitMockValues)}
-            />
+            {watch("algotithm") === "AG" && (
+              <Button
+                type='button'
+                text='Encontrar Rota (values mock)'
+                iconLeft={<PersonSimpleRun weight='bold' size={22} />}
+                className={cn(
+                  "text-yellow-700 bg-transparent border-yellow-700 font-semibold",
+                  "hover:bg-opacity-80",
+                )}
+                onClick={handleSubmit(onSubmitMockValues)}
+              />
+            )}
           </div>
         </section>
       </main>

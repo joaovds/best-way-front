@@ -40,7 +40,7 @@ export const AGResults: React.FC<AGResultsProps> = () => {
   };
 
   useEffect(() => {
-    if (data) {
+    if (data && (data.algotithm === "AG" || data.algotithm === "AMBOS")) {
       fetchBestRoute();
     }
   }, [data]);
